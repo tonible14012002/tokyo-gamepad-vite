@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.3.3)
   tokyoclient-ts:
-    specifier: ^1.0.10
-    version: 1.0.10(ws@8.14.2)
+    specifier: ^1.1.1
+    version: 1.1.1(ws@8.14.2)
 
 devDependencies:
   '@types/node':
@@ -2589,6 +2589,7 @@ packages:
   /node-gyp-build@4.6.1:
     resolution: {integrity: sha512-24vnklJmyRS8ViBNI8KbtK/r/DmXQMRiOMXTNz2nrTnAYUwjmEEbnnpB/+kt+yWRv73bPsSPRFddrcIbAxSiMQ==}
     hasBin: true
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -3344,8 +3345,8 @@ packages:
     dependencies:
       is-number: 7.0.0
 
-  /tokyoclient-ts@1.0.10(ws@8.14.2):
-    resolution: {integrity: sha512-hzfJjZiFWPOKwhL/hEvdfCErUWV93VURCSRe/QKMWXLjrlKQ5xIoIPklB5LMxgY1iDCcnRrrwePAtMkrh5VQKQ==}
+  /tokyoclient-ts@1.1.1(ws@8.14.2):
+    resolution: {integrity: sha512-B8i/ZNwZda1EOrmIxqL1zsBvURfxZeNRf7x9vRaVXKksbnVOQv7lSEg2arzadydXw0fY2cToDNeNylQGcfzorw==}
     dependencies:
       isomorphic-ws: 5.0.0(ws@8.14.2)
     optionalDependencies:
