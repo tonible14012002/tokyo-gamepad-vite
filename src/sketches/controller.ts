@@ -1,10 +1,10 @@
 import { SketchProps, Sketcher } from "@/components/P5Canvas/type";
-import { TokyoController } from "@/hooks/useTokyGameClient";
 import { Vector } from "p5";
+import { Gamepad } from "tokyoclient-ts";
 
 interface DemoSketcher extends SketchProps {
     lockScreen?: boolean
-    tokyoController?: TokyoController
+    tokyoController?: Gamepad
 }
 
 interface P5Touch {

@@ -1,67 +1,41 @@
-import { useEffect, useRef, useState, useId } from "react"
-import type { Gamepad, EventKit, IConfig } from "tokyoclient-ts"
-import { TokyoGameClient as TokyoClient } from "tokyoclient-ts"
-
-const CONFIG: Omit<IConfig, 'userName'> = {
-    serverHost: "combat.sege.dev",
-    apiKey: "webuild0",
-    useHttps: true
-  }
+import { useEffect, useState, useId } from "react"
+import { 
+    TokyoGameClient as TokyoClient, 
+    Gamepad, 
+} from "tokyoclient-ts"
 
 interface UseTokyoGameClientParams {
-    onConnectSucceed?: (_: Gamepad) => void
-    eventHandler?: (_: EventKit) => void
+    onConnectSucceed?: () => void
+    eventHandler?: () => void
     allowConnect?: boolean
     userName: string
 }
 
-export interface TokyoController {
-    rotate: (_:number) => void
-    fire: () => void
-    throttle: (_: number) => void
-}
-
 export const useTokyoGameClient = ({
     userName,
-    onConnectSucceed,
-    eventHandler,
     allowConnect=true
 }: UseTokyoGameClientParams) => {
-    const [ client, setClient ] = useState<TokyoClient>()
+    const [ gamepad, setGamepad ] = useState<Gamepad>()
     const [ isFirstLoading, setIsFirstLoading ] = useState(true)
     const id = useId()
 
-    const connectSuccessRef = useRef(onConnectSucceed)
-    const eventHandlerRef = useRef(eventHandler)
-
     const createGameClient = () => {
         if (!allowConnect) return
-
         const client = new TokyoClient({
-            ...CONFIG,
+            serverHost: "combat.sege.dev",
+            apiKey: "webuild",
+            useHttps: true,
             userName: userName + "_" + id
         })
-
-        client.setOnOpenFn((gamepad: Gamepad) => {
-            setIsFirstLoading(false)
-            connectSuccessRef.current?.(gamepad)
-        })
-        client.setOnMessageFn((e: EventKit) => eventHandlerRef.current?.(e))
-
-        setClient(client)
-
+        client.setOnOpenFn(() => setIsFirstLoading(false))
+        setGamepad(client.GamePad())
         console.log("created client")
     }
-
     useEffect(createGameClient, [allowConnect, userName, id])
 
     return {
-        controller: client ? {
-            rotate: client.rotate.bind(client),
-            fire: client.fire.bind(client),
-            throttle: client.throttle.bind(client),
-        } as TokyoController: undefined,
-        isFirstLoading
+        controller: gamepad,
+        isFirstLoading,
     }
 }
 
