@@ -1,5 +1,6 @@
 import { useEffect, useState, useId } from "react"
-import { 
+import { v4 as uuidv4 } from 'uuid';
+import {
     TokyoGameClient as TokyoClient, 
     Gamepad, 
 } from "tokyoclient-ts"
@@ -23,7 +24,7 @@ export const useTokyoGameClient = ({
         if (!allowConnect) return
         const client = new TokyoClient({
             serverHost: "combat.sege.dev",
-            apiKey: "webuild",
+            apiKey: uuidv4(),
             useHttps: true,
             userName: userName + "_" + id
         })
@@ -38,4 +39,3 @@ export const useTokyoGameClient = ({
         isFirstLoading,
     }
 }
-
