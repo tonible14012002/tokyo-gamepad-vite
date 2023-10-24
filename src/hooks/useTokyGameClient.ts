@@ -1,5 +1,6 @@
 import { useEffect, useState, useId } from "react"
-import { 
+import { v4 as uuidv4 } from 'uuid';
+import {
     TokyoGameClient as TokyoClient, 
     Gamepad, 
 } from "tokyoclient-ts"
@@ -20,16 +21,25 @@ export const useTokyoGameClient = ({
     const id = useId()
 
     const createGameClient = () => {
-        if (!allowConnect) return
+        if (!allowConnect) {
+            setGamepad(undefined)
+            return
+        }
         const client = new TokyoClient({
             serverHost: "combat.sege.dev",
-            apiKey: "webuild",
+            apiKey: uuidv4(),
             useHttps: true,
             userName: userName + "_" + id
         })
         client.setOnOpenFn(() => setIsFirstLoading(false))
         setGamepad(client.GamePad())
         console.log("created client")
+        return () => {
+            if (allowConnect) {
+                console.log('closed')
+                client.close()
+            }
+        }
     }
     useEffect(createGameClient, [allowConnect, userName, id])
 
@@ -38,4 +48,3 @@ export const useTokyoGameClient = ({
         isFirstLoading,
     }
 }
-
