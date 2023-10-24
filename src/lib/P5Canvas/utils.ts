@@ -47,8 +47,8 @@ export const createAutoResizeSketcher = <Props extends SketchProps=SketchProps>(
     const originalwrapperResize = p5.onWrapperResize
     p5.onWrapperResize = (w: number, h: number) => {
       p5.resizeCanvas(w, h)
-      p5.props?.onResize?.(p5.wrapper?.offsetWidth ?? 0, p5.wrapper?.offsetHeight ?? 0)
-      originalwrapperResize?.(w, h)
+      p5.props?.onResize?.(w, h)
+      originalwrapperResize?.(w, h) // update joystick
     }
 
     const originSetup = p5.setup
@@ -58,12 +58,6 @@ export const createAutoResizeSketcher = <Props extends SketchProps=SketchProps>(
       p5.props?.onLoad?.(p5)
       // User define 
       originSetup?.()
-    }
-
-    const originalWindowResized = p5.windowResized
-    p5.windowResized = () => {
-      p5.props?.onResize?.(p5.wrapper?.offsetWidth ?? 0, p5.wrapper?.offsetHeight ?? 0)
-      originalWindowResized?.()
     }
   }
 }

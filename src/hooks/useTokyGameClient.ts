@@ -17,7 +17,7 @@ export const useTokyoGameClient = ({
     allowConnect=true
 }: UseTokyoGameClientParams) => {
     const [ gamepad, setGamepad ] = useState<Gamepad>()
-    const [ isFirstLoading, setIsFirstLoading ] = useState(true)
+    const [ isLoading, setIsLoading ] = useState(true)
     const id = useId()
 
     const createGameClient = () => {
@@ -25,13 +25,14 @@ export const useTokyoGameClient = ({
             setGamepad(undefined)
             return
         }
+        setIsLoading(true)
         const client = new TokyoClient({
             serverHost: "combat.sege.dev",
             apiKey: uuidv4(),
             useHttps: true,
             userName: userName + "_" + id
         })
-        client.setOnOpenFn(() => setIsFirstLoading(false))
+        client.setOnOpenFn(() => setIsLoading(false))
         setGamepad(client.GamePad())
         console.log("created client")
         return () => {
@@ -44,7 +45,8 @@ export const useTokyoGameClient = ({
     useEffect(createGameClient, [allowConnect, userName, id])
 
     return {
-        controller: gamepad,
-        isFirstLoading,
+        // Uncaught DOMException: Failed to execute 'send' on 'WebSocket': Still in CONNECTING state.
+        controller: isLoading ? undefined: gamepad,
+        isLoading,
     }
 }

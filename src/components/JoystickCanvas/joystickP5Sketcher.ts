@@ -8,6 +8,7 @@ export interface JoystickStatus {
     x: number
     y: number
   }
+  background?: string
 }
 
 export interface JoystickSketcherProps extends SketchProps {
@@ -40,6 +41,10 @@ createAutoUpdatePropsSketcher(
         p5.updateWithProps = (passedProps) => {
           throttleOnMove = passedProps.throttleOnMove ?? 0
         } 
+
+        p5.setup = () => {
+          console.log("setup")
+        }
 
         p5.registerTouchHandler?.({
           key: "joystick_touched",
@@ -83,7 +88,7 @@ createAutoUpdatePropsSketcher(
         })
 
         p5.draw = () => {
-          p5.background(0, 0)
+          p5.clear(0,0,0,0)
           p5.ellipseMode(p5.CENTER)
           if (p5.props?.joystickBaseColor) {
             p5.fill(p5.props.joystickBaseColor)

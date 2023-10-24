@@ -4,12 +4,18 @@ import { createAutoResizeSketcher, createAutoUpdatePropsSketcher, createMobileTo
 export interface ButtonSketcherProps extends SketchProps {
     onPressed?: () => void
     onReleased?: () => void
+    lockScreen?: boolean
 }
 
 export const buttonSketcher: Sketcher<ButtonSketcherProps> = 
 createAutoUpdatePropsSketcher(
     createAutoResizeSketcher(
         createMobileTouchManagerSketcher((p5) => {
+            p5.touchMoved = () => {
+                if (p5.props?.lockScreen) {
+                    return false
+                }
+            }
             p5.registerTouchHandler?.({
                 key: "Button",
                 // Touch everywhere in the canvas to active
@@ -23,7 +29,7 @@ createAutoUpdatePropsSketcher(
             })
             p5.draw = () => {
                 // Background transparent
-                p5.background(0, 0)
+                p5.clear(0, 0, 0, 0)
             }
         })
     )

@@ -12,7 +12,7 @@ export default function Home () {
   const [ username, setUsername ] = useState<string>("")
   const [ isLockScreen, setIsLockScreen ] = useState<boolean>(false)
 
-  const { controller, isFirstLoading } = useTokyoGameClient({
+  const { controller, isLoading } = useTokyoGameClient({
     userName: username,
     allowConnect: Boolean(username),
   })
@@ -42,7 +42,7 @@ export default function Home () {
               Logout
             </Button>
             <div className='flex items-center gap-2'>
-              {isFirstLoading ? (
+              {isLoading ? (
                   <>
                   <span className='text-yellow-500 '>
                     Connecting
@@ -73,6 +73,7 @@ export default function Home () {
         }}
         throttleOnMove={100}
         onStop={() => controller?.throttle(0)}
+        lockScreen={isLockScreen}
       />
       <ButtonCanvas
         wrapperProps={{
@@ -83,6 +84,7 @@ export default function Home () {
               }
             ),
         }}
+        lockScreen={isLockScreen}
         onPressed={() => SetFireButtonPressed(true)}
         onReleased={() => {
           SetFireButtonPressed(false)
