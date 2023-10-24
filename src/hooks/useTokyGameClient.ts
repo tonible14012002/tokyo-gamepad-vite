@@ -21,7 +21,10 @@ export const useTokyoGameClient = ({
     const id = useId()
 
     const createGameClient = () => {
-        if (!allowConnect) return
+        if (!allowConnect) {
+            setGamepad(undefined)
+            return
+        }
         const client = new TokyoClient({
             serverHost: "combat.sege.dev",
             apiKey: uuidv4(),
@@ -31,6 +34,12 @@ export const useTokyoGameClient = ({
         client.setOnOpenFn(() => setIsFirstLoading(false))
         setGamepad(client.GamePad())
         console.log("created client")
+        return () => {
+            if (allowConnect) {
+                console.log('closed')
+                client.close()
+            }
+        }
     }
     useEffect(createGameClient, [allowConnect, userName, id])
 
