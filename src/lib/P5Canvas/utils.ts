@@ -92,7 +92,7 @@ export const createMobileTouchManagerSketcher = <Props extends SketchProps=Sketc
   
       //  on Touch Start
       activeTouches.forEach((touch) => {
-        // Fint event hanlder that will be active
+        // Find event hanlder that will be active
         const activeHandlers = handlers.filter(({activator, key}) => (
           touch.x >= 0 && touch.y >= 0 // Only handle Touch that inside the canvas
           && !touchActiveHandlers.find(h => h.handlerkey === key)
