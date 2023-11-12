@@ -1,4 +1,4 @@
-import { useEffect, useState, useId } from "react"
+import { useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import {
     TokyoGameClient as TokyoClient, 
@@ -18,7 +18,6 @@ export const useTokyoGameClient = ({
 }: UseTokyoGameClientParams) => {
     const [ gamepad, setGamepad ] = useState<Gamepad>()
     const [ isLoading, setIsLoading ] = useState(true)
-    const id = useId()
 
     const createGameClient = () => {
         if (!allowConnect) {
@@ -30,7 +29,7 @@ export const useTokyoGameClient = ({
             serverHost: "combat.sege.dev",
             apiKey: uuidv4(),
             useHttps: true,
-            userName: userName + "_" + id
+            userName: userName + "_" + Math.round(Math.random()*1000)
         })
         client.setOnOpenFn(() => setIsLoading(false))
         setGamepad(client.GamePad())
@@ -42,7 +41,7 @@ export const useTokyoGameClient = ({
             }
         }
     }
-    useEffect(createGameClient, [allowConnect, userName, id])
+    useEffect(createGameClient, [allowConnect, userName])
 
     return {
         // Uncaught DOMException: Failed to execute 'send' on 'WebSocket': Still in CONNECTING state.
