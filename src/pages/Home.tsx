@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useTokyoGameClient } from "@/hooks/useTokyGameClient"
+import { useTokyoGameClient } from "@/hooks/useTokyoGameClient"
 import { JoystickCanvas } from "@/components/JoystickCanvas"
 import { ButtonCanvas } from "@/components/ButtonCanvas"
 import { LoginForm } from "@/components/LoginForm"
@@ -42,7 +42,7 @@ export default function Home () {
               </label>
             </div>
             <button
-              className="px-4 h-10 rounded-lg bg-neutral-800 text-neutral-200"
+              className="px-4  h-10 rounded-lg bg-neutral-800 text-neutral-200"
               onClick={() => {
                 setUsername("")
               }}
